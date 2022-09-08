@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript WebView Bridge</title>
+    <style>
+    body {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+<button id="button" type="button">Call to Android method from JavaScript</button>
+<script>
+    // Elements
+    const button = document.getElementById('button')
+    const message = 'Say hello from JavaScript'
+    button.addEventListener('click', () => globalThis.store.showToast(message))
+
+    // Functions
+    const createElement = ({ tag, text }) => {
+      const element = document.createElement(tag)
+
+      if (text) {
+        element.innerText = text
+      }
+
+      return element
+    }
+
+    const showData = async (data) => {
+      const heading = createElement({ tag: 'h1', text: 'Data received from Android' })
+      document.body.append(heading)
+
+      const list = createElement({ tag: 'ul' })
+
+      for (const [key, value] of Object.entries(data)) {
+        const listItem = createElement({ tag: 'li', text: `${key}: ${value}` })
+        list.append(listItem)
+      }
+
+      document.body.append(list)
+    }
+  </script>
+</body>
+
+</html>
